@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lab06/page/profile.dart';
 import 'package:lab06/page/register.dart';
+import 'package:lab06/service/auth_service.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -43,7 +45,20 @@ class _LoginState extends State<Login> {
   ElevatedButton buildLogin() {
     return ElevatedButton(
         onPressed: () {
-          if (_formKey.currentState!.validate()) {}
+          if (_formKey.currentState!.validate()) {
+            AuthService.loginUser(_emailcon.text, _passwordcon.text)
+                .then((value) {
+              if (value == 1) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(),
+                    ));
+              } else {
+                print("FAILED Login");
+              }
+            });
+          }
         },
         child: const Text("Login"));
   }

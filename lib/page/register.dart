@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lab06/page/login.dart';
+import 'package:lab06/service/auth_service.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -58,7 +60,20 @@ class _RegisterState extends State<Register> {
   ElevatedButton buildRegister() {
     return ElevatedButton(
         onPressed: () {
-          if (_formKey.currentState!.validate()) {}
+          if (_formKey.currentState!.validate()) {
+            AuthService.registerUser(_emailcon.text, _passwordcon.text)
+                .then((value) {
+              if (value == 1) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ));
+              } else {
+                print("FAILED Register");
+              }
+            });
+          }
         },
         child: const Text("Register"));
   }
